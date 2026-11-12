@@ -13,10 +13,10 @@ import numpy as np
 import pandas as pd
 
 
-def generate_workout_data(n_days: int = 400, seed: int = 42) -> pd.DataFrame:
+def generate_workout_data(n_days: int = 300, seed: int = 42) -> pd.DataFrame:
     rng = np.random.default_rng(seed)
 
-    dates = pd.date_range(start="2024-01-01", periods=n_days, freq="D")
+    dates = pd.date_range(start="2025-06-01", periods=n_days, freq="D")
 
     # Base daily signals with some autocorrelation (today depends partly on yesterday)
     sleep_hours = np.clip(rng.normal(7, 1.1, n_days), 3, 10)

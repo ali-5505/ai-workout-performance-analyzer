@@ -2,7 +2,8 @@
 
 A machine learning pipeline that predicts next-session workout performance
 using training load, sleep, nutrition (macro adherence), and recovery
-metrics (resting heart rate, soreness).
+metrics (resting heart rate, soreness), trained on 300 days of synthetic
+daily data.
 
 ## What it does
 
@@ -20,14 +21,17 @@ metrics (resting heart rate, soreness).
 
 ## Tech stack
 
-Python, Pandas, NumPy, Scikit-learn, Matplotlib.
+Python, Pandas, NumPy, Scikit-learn, Matplotlib, Excel.
 
 ## Project structure
 
 ```
 ai-workout-performance-analyzer/
-├── generate_data.py   # Synthetic sample dataset generator
-├── train_model.py     # Feature engineering, training, evaluation, plots
+├── generate_data.py              # Synthetic 300-day dataset generator
+├── train_model.py                # Feature engineering, training, evaluation, plots
+├── workout_data.csv              # The generated dataset
+├── Workout_Data_Analysis.xlsx    # Excel analysis of the same dataset
+├── plots/diagnostics.png         # Model diagnostic plots
 ├── requirements.txt
 └── README.md
 ```
@@ -47,15 +51,31 @@ metrics to the console, and saves diagnostic plots to `plots/diagnostics.png`.
 
 ```
 --- Ridge Regression ---
-Test MAE:        3.49
-Test R^2:        0.673
-5-fold CV MAE:   3.24 (+/- 0.21)
+Test MAE:        3.68
+Test R^2:        0.632
+5-fold CV MAE:   3.18 (+/- 0.33)
 
 --- Random Forest ---
-Test MAE:        4.32
-Test R^2:        0.523
-5-fold CV MAE:   3.54 (+/- 0.32)
+Test MAE:        4.28
+Test R^2:        0.468
+5-fold CV MAE:   3.82 (+/- 0.42)
 ```
+
+## Excel Analysis
+
+`Workout_Data_Analysis.xlsx` analyzes the same 300-day dataset in Excel:
+
+- **Log:** the daily data, plus formula columns that rebuild the Python
+  features (7-day average load, load trend delta, protein adherence) so the
+  Pandas feature engineering can be checked against an independent version.
+  It also has a low-sleep flag and conditional formatting.
+- **Weekly Summary:** SUMIFS/AVERAGEIFS rollups by week, with trend charts
+  for performance and training load.
+- **PivotTable:** weekly breakdown of training load and performance.
+- **By Day + Lookup:** averages by day of the week, plus a date lookup
+  (INDEX/MATCH and XLOOKUP).
+
+![Weekly Summary](plots/excel_weekly_summary.png)
 
 ## Notes
 
